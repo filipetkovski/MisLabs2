@@ -1,0 +1,33 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "schoolproject-b2351",
+          "appId": "1:652599043084:android:b44f521ad16242702ffa29",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "schoolproject-b2351",
+          "appId": "1:652599043084:ios:204dee4dde48d4c62ffa29",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "schoolproject-b2351",
+          "configurations": {
+            "android": "1:652599043084:android:b44f521ad16242702ffa29",
+            "ios": "1:652599043084:ios:204dee4dde48d4c62ffa29"
+          }
+        }
+      }
+    }
+  },
+  "emulators": {
+    "singleProjectMode": true
+  }
+}

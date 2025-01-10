@@ -21,12 +21,7 @@ class _JokeGridState extends State<JokeGrid> {
         childAspectRatio: 200 / 200,
         shrinkWrap: true,
         children: widget.jokes.map((joke) =>
-            JokeCard(
-              id: joke.id,
-              type: joke.type,
-              setup: joke.setup,
-              punchline: joke.punchline,
-            )).toList()
+            JokeCard(joke: joke)).toList()
     );
   }
 }

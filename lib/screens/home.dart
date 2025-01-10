@@ -24,8 +24,7 @@ class _HomeState extends State<Home> {
   }
 
   void getJokeTypesFromAPI() async {
-    var response = await ApiService.getJokeTypesFromApi();
-    var data = List<String>.from(jsonDecode(response.body)); // Cast elements to List<String>
+    var data = await ApiService.getJokeTypesFromApi(); // Cast elements to List<String>
     setState(() {
       types = data;
     });
@@ -39,10 +38,10 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.redAccent[100],
         actions: [
           IconButton(
-            icon: Icon(Icons.add_card),
+            icon: Icon(Icons.favorite),
             color: Colors.white,
             onPressed: () {
-              Navigator.pushNamed(context, '/random');
+              Navigator.pushNamed(context, '/favorite');
             },
           ),
         ],

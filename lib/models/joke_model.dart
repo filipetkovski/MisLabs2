@@ -5,6 +5,7 @@ class JokeModel {
   String type;
   String setup;
   String punchline;
+  bool isFavorite = false;
 
   JokeModel({required this.id, required this.type, required this.setup, required this.punchline});
 

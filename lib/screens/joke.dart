@@ -1,59 +1,43 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:lab2/models/joke_model.dart';
+import 'package:lab2/services/api_service.dart';
+import 'package:lab2/widgets/joke/joke_grid.dart';
 
-import '../services/api_service.dart';
-import '../widgets/joke/joke_grid.dart';
-
-class JokeScreen extends StatefulWidget {
+class JokeScreen extends StatelessWidget {
   final String type;
 
-  const JokeScreen({super.key, required this.type});
-
-  @override
-  State<JokeScreen> createState() => _JokeScreenState();
-}
-
-class _JokeScreenState extends State<JokeScreen> {
-  List<JokeModel> jokes = [];
-
-  @override
-  void initState() {
-    super.initState();
-    print("Received Type: ${widget.type}");
-    getJokeTypesFromAPI(widget.type);// Debug print
-  }
-
-  void getJokeTypesFromAPI(String type) async {
-    var response = await ApiService.getJokesFromJokeTypeApi(type);
-    var data = List.from(response);
-    setState(() {
-      jokes = data.asMap().entries.map<JokeModel>((element) {
-        return JokeModel.fromJson(element.value);
-      }).toList();
-    });
-  }
-
+  JokeScreen({required this.type});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.redAccent[100],
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add_card),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.pushNamed(context, '/random');
-            },
-          ),
-        ],
-        title: const Text("Joke for the day!", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
         centerTitle: true,
+        title: Text(
+          '${type[0].toUpperCase() + type.substring(1, type.length)} Jokes',
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),),
+      body: FutureBuilder<List<JokeModel>>(
+        future: ApiService.getJokesFromJokeTypeApi(type),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            return JokeGrid(jokes: snapshot.data!);
+          }
+        },
       ),
-      body: JokeGrid(jokes: jokes),
     );
   }
 }
